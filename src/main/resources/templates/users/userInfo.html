@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Sign Up</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<!-- Latest compiled and minified JavaScript -->
+
+</head>
+<body>
+	<br />
+	<br />
+	<br />
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 well">
+				<form th:action="@{/users/create}" th:object="${userForm}"
+					class="form-horizontal" method="post">
+					<fieldSet>
+						<legend>Sign up page</legend>
+						<div>
+							<h4>(Retype your name to WRITER) Check the name below.</h4>						
+							<p th:text="${socialData.writer}">writer</p>
+							<p style="color:#EDEDED;" id="jsonData" th:text="${socialData.jsonResult}">jsonData</p>							
+							<!-- socialData.jsonResult 정보를 담고 있는 input tag -->
+							<!-- <input type="hidden" id="jsonData" th:value="${socialData.jsonResult}" /> -->
+							<input type="hidden" id="jsonData" th:value="${socialData.jsonResult}" />
+						</div>
+						<div class="form-group"
+							th:classappend="${#fields.hasErrors('writer')}? 'has-error has-feedback'">
+							<label for="password" class="col-sm-2 control-label">WRITER</label>
+							<div class="col-sm-10">
+								<input type="text" id="writer" name="writer"
+									th:field="*{writer}" class="form-control" placeholder="site id">
+								<span th:if="${#fields.hasErrors('writer')}"
+									th:errors="*{writer}" class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group"
+							th:classappend="${#fields.hasErrors('password')}? 'has-error has-feedback'">
+							<label for="password" class="col-sm-2 control-label">PW</label>
+
+							<div class="col-sm-10">
+								<input type="password" id="password" name="password"
+									th:field="*{password}" class="form-control" placeholder="pw">
+								<span th:if="${#fields.hasErrors('password')}"
+									th:errors="*{password}" class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group"
+							th:classappend="${#fields.hasErrors('nickName')}? 'has-error has-feedback'">
+							<label for="nickName" class="col-sm-2 control-label">NickName</label>
+
+							<div class="col-sm-10">
+								<input type="text" id="nickName" name="nickName"
+									th:field="*{nickName}" class="form-control"
+									placeholder="nickName"> <span
+									th:if="${#fields.hasErrors('nickName')}"
+									th:errors="*{nickName}" class="help-block"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+
+								<!-- 쿠키 입력 파트  -->
+								<button type="submit" class="btn btn-primary"
+									onclick="setCookie('test', 1)">E N T E R</button>
+							</div>
+						</div>
+					</fieldSet>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript"
+		src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+	<!-- JS or JQuery -->
+	<script>		
+		function setCookie(cName, cDay) {
+			//var cValue = document.getElementById(jsonData).value;
+			var cValue = $("#jsonData").text();			
+			
+			console.log(cValue);
+			
+			var expire = new Date();
+			expire.setDate(expire.getDate() + cDay);
+			cookies = cName + '=' + escape(cValue) + '; path=/ ';
+			if (typeof cDay != 'undefined')
+				cookies += ';expires=' + expire.toGMTString() + ';';
+			document.cookie = cookies;
+		}
+
+		// 쿠키 가져오기
+		function getCookie(cName) {
+			cName = cName + '=';
+			var cookieData = document.cookie;
+			var start = cookieData.indexOf(cName);
+			var cValue = '';
+			if (start != -1) {
+				start += cName.length;
+				var end = cookieData.indexOf(';', start);
+				if (end == -1)
+					end = cookieData.length;
+				cValue = cookieData.substring(start, end);
+			}
+			return unescape(cValue);
+		}
+	</script>
+</body>
+</html>

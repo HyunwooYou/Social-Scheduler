@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Social Scheduler</title>
+
+	<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"/>
+	<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap-theme.min.css}"/>
+	
+   <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+	<!-- JQuery and AJAX -->	
+	<script src="http://code.jquery.com/jquery-1.7.js" type="text/javascript"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<style>
+.intro-wrap {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.bgwrap {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.intro-wrap>.bgwrap>div {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	text-align: center;
+}
+
+.intro-wrap>.bgwrap>div>img {
+	height: 100%;
+	width: auto;
+	max-width: inherit;
+}
+
+.content {
+	margin-left: 190px;
+	width: 1680px;
+	height: 800px;
+	position: absolute;
+	color: white;
+	font-size: 200px;
+	text-align: center;
+}
+
+.content_p {
+	margin-left:100px;
+	margin: auto;
+	margin-top: 250px; 
+	font-size : 53px;
+	color: white;
+	font-weight: bolder;
+	font-size: 53px
+}
+
+.content_p2 {
+	margin: auto;
+	font-size: 28px;
+	color: white;
+	font-weight: bolder;
+	margin-top: 50px;
+}
+
+.content_p3 {
+	font-size: 28px;
+	color: white;
+	font-weight: bolder;
+	margin-top: 30px;
+}
+
+#area {
+	margin-left: 630px;
+	margin-top: 50px;
+	background-color: transparent !important;
+	background-image: none !important;
+	width: 200px;
+	height: 60px;
+	padding: 8px;
+	font-size: 22px;
+	color: white;
+	font-weight: bolder;
+	border-width: medium;
+	float: left;
+	border-radius: 8px;
+}
+
+#recommendation {
+	margin-left: 20px;
+	margin-top: 50px;
+	font-weight: bold;
+	font-size: 22px;
+	width: 200px;
+	height: 60px;
+	float: left;
+	border-radius: 8px;
+}
+
+#logo {	
+	margin-top: 20px;
+	position: absolute;
+	font-size: 45px;
+}
+
+.btn-default {	
+	width: 150px;
+	height: 80px;
+	font-size: 25px;
+	font-weight: bold;
+	border-radius: 15px;
+}
+</style>
+
+</head>
+<body>
+<!-- site로 데이터 전송 -->
+<script>
+	// 쿠키 삭제
+	function deleteCookie(cName, cDay) {
+		var expire = new Date();
+		expire.setDate(expire.getDate() + cDay);
+	}
+
+	// 쿠키 가져오기
+	function post_to_url() {
+
+		var cName = 'test'; // 쿠키 이름 			
+
+		cName = cName + '=';
+		var cookieData = document.cookie;
+		var start = cookieData.indexOf(cName);
+		var cValue = '';
+
+		if (start != -1) {
+			start += cName.length;
+			var end = cookieData.indexOf(';', start);
+			if (end == -1) {
+				end = cookieData.length;
+			}
+			cValue = cookieData.substring(start, end);
+		}
+
+		var tem_cValue = unescape(cValue);
+
+		// " >> ' 변경 완료 
+		tem_cValue = tem_cValue.replace(/\"/gi, "'");
+		
+		/* * * * * * * * * * * *
+		 *  post to other site *
+		 * * * * * * * * * * * */ 
+
+		// params를 json Object로 변환. 
+		var params = eval("(" + tem_cValue + ")");			
+
+		var form = document.createElement("form");
+		form.setAttribute("method", "post");
+		form.setAttribute(
+						"action",
+						'http://ec2-52-78-170-110.ap-northeast-2.compute.amazonaws.com/main/my_interest');
+
+		for ( var key in params) {
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", key);
+			hiddenField.setAttribute("value", params[key]);
+			form.appendChild(hiddenField);
+		}
+		//alert(params);		
+
+		document.body.appendChild(form);
+		form.submit();
+	}
+	
+	
+</script>
+<!-- site로 데이터 전송 end -->	
+
+<!-- <input type="button" value="쿠키 삭제" onclick="deleteCookie('test', -1)" /> -->
+<!-- <input type="button" value="전 송" onclick="post_to_url()" /> -->
+
+	<div class="container">
+		<div class="intro-wrap">
+			<div class="bgwrap">
+				<div style="display: block;">
+					<img alt="image_1" src="./img/image01.jpg" />
+				</div>
+				<div style="display: none;">
+					<img alt="image_2" src="./img/image07.jpg" />
+				</div>
+				<div style="display: none;">
+					<img alt="image_2" src="./img/image02.jpg" />
+				</div>
+				<div style="display: none;">
+					<img alt="image_3" src="./img/image03.jpg" />
+				</div>
+				<div style="display: none;">
+					<img alt="image_4" src="./img/image04.jpg" />
+				</div>
+				<div style="display: none;">
+					<img alt="image_5" src="./img/image05.jpg" />
+				</div>
+				<div style="display: none;">
+					<img alt="image_5" src="./img/image06.jpg" />
+				</div>
+			</div>
+		</div>			
+	</div>
+		
+	<div class="content">
+		<p id="logo">Social Scheduler</p>
+		<p class="content_p">여행계획이 필요하세요?</p>
+		<p class="content_p2">TWITTER 트윗 내용을 기반으로 팔로윙하는 사람들과</p>
+		<p class="content_p3">연관된 여행지를 추천해줍니다.</p>
+
+		<button id="area" class="btn btn-default btn-lg" data-toggle="modal"
+			data-target="#myModal">지역 선택</button>
+
+		<!-- 기본 모달 -->
+		<div style="margin-top:60px;"class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content" style="width:604px; background-color: rgba( 255, 255, 255, 0);">												
+					<div class="modal-body">
+						<div style="float: left;">
+							<button  class="btn btn-default" data-dismiss="modal">경 기 도</button>
+							<button  class="btn btn-default" data-dismiss="modal">제 주 도</button>
+							<button  class="btn btn-default" data-dismiss="modal">전 라 남 도</button>
+						</div>
+						<div style="float: left;">
+							<button  class="btn btn-default" data-dismiss="modal">전 라 북 도</button>
+							<button  class="btn btn-default" data-dismiss="modal">강 원 도</button>
+							<button  class="btn btn-default" data-dismiss="modal">충 청 남 도</button>
+						</div>
+						<div style="float: left;">
+							<button  class="btn btn-default" data-dismiss="modal">충 청 북 도</button>
+							<button  class="btn btn-default" data-dismiss="modal">경 상 북 도</button>
+							<button  class="btn btn-default" data-dismiss="modal">경 상 남 도</button>
+						</div>												
+					</div>
+					
+					<!-- 
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+					 -->
+				</div>
+			</div>
+		</div>
+		
+		
+		<!-- 
+		<button id="area" class="btn btn-default btn-lg" onclick="clickMe()">지역
+			선택</button>
+ 		-->
+
+		<button id="recommendation" type="button"
+			class="btn btn-default btn-lg" onclick="post_to_url()">추천 받기</button>
+			<!-- Button trigger modal -->
+	</div>
+
+	<script type="text/javascript">
+	var $imgList = $('.bgwrap>div');				// bgwrap div 안에 있는 div 자식들을 가져옴
+	var nImgCount = $imgList.children().length;		// 위에서 가져온 div 자식들의 개수
+	//var nDuration = 4500;							// 이미지를 변경할 시간 (3000 = 3초)
+	var nDuration = 3700;
+	var bAuto = true;								// 자동으로 변경할 지 여부
+	var nIndex = 0;									// 변경할 이미지의 Index
+	
+	if(bAuto == true) {
+		setInterval(autoSlide, nDuration);			// Javascript setInterval 함수 호출
+	}
+	
+	function autoSlide() {
+		/* 3초마다 이 함수에 들어오게 됨 */
+		// % 연산은 나누기를 한 후 나머지 값을 가져오는 연산입니다.
+		// nImgCount = 4
+		/*
+			nIndex = 0
+			++nIndex = 1
+			(++nIndex % nImageCount) = (1 % 4 = 1)
+			$($imgList.get(0)).fadeOut(1000);	// 0 Index에 있는 이미지를 fadeOut
+			$($imgList.get(1)).fadeIn(1000);	// 1  Index에 있는 이미지를 fadeIn
+		*/
+		/*
+			nIndex = 1
+			++nIndex = 2
+			(++nIndex % nImageCount) = (2 % 4 = 2)
+			$($imgList.get(1)).fadeOut(1000);	// 1 Index에 있는 이미지를 fadeOut
+			$($imgList.get(2)).fadeIn(1000);	// 2 Index에 있는 이미지를 fadeIn
+		*/
+		var next = (++nIndex % nImgCount);
+		$($imgList.get(next - 1)).fadeOut(1200);
+		$($imgList.get(next)).fadeIn(1200);
+	}
+	
+	function clickMe(){
+  		alert("눌렀다");
+  	}   
+</script>     
+</body>
+</html>

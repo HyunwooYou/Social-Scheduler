@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+   <meta charset="UTF-8"/>   
+   <title>관광청 API</title>
+   <!-- Bootstrap -->
+    <link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap.min.css}"/>
+	<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"
+	th:href="@{/webjars/bootstrap/3.3.4/css/bootstrap-theme.min.css}"/>
+    
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>    
+	<script>
+	
+	$(function(){
+		
+		var total_info = ""; 
+		
+		var value1 = 0; // 타입선택 
+		var value2 = 0;	// 대분류
+		var value3 = 0; // 중분류
+		var value4 = 0;	// 소분류
+		var value5 = 0; // 지역 선택
+		var value6 = 0; // 시군구 선택
+		
+		var deter1 = 0; // 타입선택 제한자 
+		var deter2 = 0;	// 대분류 제한자 
+		var deter3 = 0; // 중분류 제한자 	    
+		var deter4 = 0; // 지역선택 제한자 			
+		
+		// select box option들을 웹상에서 보여준다. 
+		
+		$("#search").click(function(){						
+			//alert(total_info);
+			$("#request").val(total_info);
+			
+			var tem = $("#request").val();
+			
+			alert(tem);
+		}); 
+		
+		// 대분류 option 할당 
+		$("#select_type").change(function(){
+			
+			if(deter1 == 0){
+				value1 = $("#select_type option:selected").val();
+				total_info += value1 + "/";
+				
+				if(value1 == "12"){														
+					$("#service_lar").append("<option value='A01'>자연</option>");
+					$("#service_lar").append("<option value='A02'>인문(문화/예술/역사)</option>"); 
+				}else if(value1 == "14"){
+					$("#service_lar").append("<option value='A02'>인문(문화/예술/역사)</option>");
+				}else if(value1 == "15"){
+					$("#service_lar").append("<option value='A02'>인문(문화/예술/역사)</option>");
+				}else if(value1 == "25"){
+					$("#service_lar").append("<option value='C01'>추천코스</option>");
+				}else if(value1 == "28"){
+					$("#service_lar").append("<option value='A03'>레포츠</option>");
+				}else if(value1 == "32"){
+					$("#service_lar").append("<option value='B02'>숙박</option>");
+				}else if(value1 == "38"){
+					$("#service_lar").append("<option value='A04'>쇼핑</option>");
+				}else if(value1 == "39"){
+					$("#service_lar").append("<option value='A05'>음식</option>");
+				}
+				deter1=1;
+			}else{
+				// id = select_type 기능을 제어 
+				$(document.getElementById('#select_type').options).each(function(index, option) {
+				      if( option.value == title ) {
+				        option.hidden = true; // not fully compatible. option.style.display = 'none'; would be an alternative or $(option).hide();
+				      }
+				});	
+			}
+			
+		});		
+		
+		// 중분류 option 할당  
+		$("#service_lar").change(function(){
+									
+			value2 = $("#service_lar option:selected").val();
+			total_info += value2 + "/";
+			
+			if(deter2 == 0){
+				if(value1 =="12" && value2 == "A01"){
+					$("#service_mid").append("<option value='A0101'>자연관광지</option>");
+					$("#service_mid").append("<option value='A0102'>관광자원</option>");
+				}else if(value1 =="12" && value2 == "A02"){
+					$("#service_mid").append("<option value='A0201'>역사관광지</option>");
+					$("#service_mid").append("<option value='A0202'>휴양관광지</option>");
+					$("#service_mid").append("<option value='A0203'>체험관광지</option>");
+					$("#service_mid").append("<option value='A0204'>산업관광지</option>");
+					$("#service_mid").append("<option value='A0205'>건축/조형물</option>");
+					$("#service_mid").append("<option value='A0206'>문화시설</option>");
+					$("#service_mid").append("<option value='A0207'>축제</option>");
+					$("#service_mid").append("<option value='A0208'>공연/행사</option>");
+				}else if(value1 =="14" && value2 == "A02"){
+					$("#service_mid").append("<option value='A0201'>역사관광지</option>");
+					$("#service_mid").append("<option value='A0202'>휴양관광지</option>");
+					$("#service_mid").append("<option value='A0203'>체험관광지</option>");
+					$("#service_mid").append("<option value='A0204'>산업관광지</option>");
+					$("#service_mid").append("<option value='A0205'>건축/조형물</option>");
+					$("#service_mid").append("<option value='A0206'>문화시설</option>");
+					$("#service_mid").append("<option value='A0207'>축제</optio	n>");
+					$("#service_mid").append("<option value='A0208'>공연/행사</option>");
+				}else if(value1 =="15" && value2 == "A02"){
+					$("#service_mid").append("<option value='A0201'>역사관광지</option>");
+					$("#service_mid").append("<option value='A0202'>휴양관광지</option>");
+					$("#service_mid").append("<option value='A0203'>체험관광지</option>");
+					$("#service_mid").append("<option value='A0204'>산업관광지</option>");
+					$("#service_mid").append("<option value='A0205'>건축/조형물</option>");
+					$("#service_mid").append("<option value='A0206'>문화시설</option>");
+					$("#service_mid").append("<option value='A0207'>축제</option>");
+					$("#service_mid").append("<option value='A0208'>공연/행사</option>");
+				}else if(value1 =="25" && value2 == "C01"){
+					$("#service_mid").append("<option value='C0112'>가족코스</option>");
+					$("#service_mid").append("<option value='C0113'>나홀로코스</option>");
+					$("#service_mid").append("<option value='C0114'>힐링코스</option>");
+					$("#service_mid").append("<option value='C0115'>도보코스</option>");
+					$("#service_mid").append("<option value='C0116'>캠핑코스</option>");
+					$("#service_mid").append("<option value='C0117'>맛코스</option>");							
+					
+				}else if(value1 =="28" && value2 == "A03"){
+					$("#service_mid").append("<option value='A0301'>레포츠소개</option>");
+					$("#service_mid").append("<option value='A0302'>육상 레포츠</option>");
+					$("#service_mid").append("<option value='A0303'>수상 레포츠</option>");
+					$("#service_mid").append("<option value='A0304'>항공 레포츠</option>");
+					$("#service_mid").append("<option value='A0305'>복합 레포츠</option>");							
+				}else if(value1 =="32" && value2 == "B02"){
+					$("#service_mid").append("<option value='B0201'>숙박시설</option>");										
+				}else if(value1 =="38" && value2 == "A04"){
+					$("#service_mid").append("<option value='A0401'>쇼핑</option>");										
+				}else if(value1 =="39" && value2 == "A05"){
+					$("#service_mid").append("<option value='A0502'>음식점</option>");										
+				}
+				
+				deter2 = 1; 
+			}else{
+				// id = service_lar 기능을 제어 
+				$(document.getElementById('#select_lar').options).each(function(index, option) {
+				      if( option.value == title ) {
+				        option.hidden = true; // not fully compatible. option.style.display = 'none'; would be an alternative or $(option).hide();
+				      }
+				});	
+			}
+			
+			
+		});
+		
+		// 소분류 option 할당 		
+		$("#service_mid").change(function(){
+			
+			value3 = $("#service_mid option:selected").val();
+			total_info += value3 + "/";
+			
+			if(deter3 == 0){
+			// 관광지 	
+				// 자연
+				if(value1 == "12" && value2 == "A01" && value3 == "A0101"){						
+					$("#service_sma").append("<option value='A01010100'>국립공원</option>");
+					$("#service_sma").append("<option value='A01010200'>도립공원</option>");
+					$("#service_sma").append("<option value='A01010300'>군립공원</option>");
+					$("#service_sma").append("<option value='A01010400'>산</option>");
+					$("#service_sma").append("<option value='A01010500'>자연생태관광지</option>");
+					$("#service_sma").append("<option value='A01010600'>자연휴양림</option>");
+					$("#service_sma").append("<option value='A01010700'>수목원</option>");
+					$("#service_sma").append("<option value='A01010800'>폭포</option>");
+					$("#service_sma").append("<option value='A01010900'>계곡</option>");
+					$("#service_sma").append("<option value='A01011000'>약수터</option>");
+					$("#service_sma").append("<option value='A01011100'>해안절경</option>");
+					$("#service_sma").append("<option value='A01011200'>해수욕장</option>");
+					$("#service_sma").append("<option value='A01011300'>섬</option>");
+					$("#service_sma").append("<option value='A01011400'>항구/포구</option>");
+					$("#service_sma").append("<option value='A01011500'>어촌</option>");
+					$("#service_sma").append("<option value='A01011600'>등대</option>");
+					$("#service_sma").append("<option value='A01011700'>호수</option>");
+					$("#service_sma").append("<option value='A01011800'>강</option>");
+					$("#service_sma").append("<option value='A01011900'>동굴</option>");
+				}else if(value1 == "12" && value2 == "A01" && value3 == "A0102"){
+					$("#service_sma").append("<option value='A01020100'>희귀동.식물</option>");
+					$("#service_sma").append("<option value='A01020200'>기암괴석</option>");
+				}else if(value1 == "12" && value2 == "A01" && value3 == "A0102"){
+					$("#service_sma").append("<option value='A01020100'>희귀동.식물</option>");
+					$("#service_sma").append("<option value='A01020200'>기암괴석</option>");
+				}
+				// 인문(문화/예술/역사)
+				else if(value2 == "A02" && value3 == "A0201"){
+					$("#service_sma").append("<option value='A02010100'>고궁</option>");
+					$("#service_sma").append("<option value='A02010200'>성</option>");
+					$("#service_sma").append("<option value='A02010300'>문</option>");
+					$("#service_sma").append("<option value='A02010400'>고택</option>");
+					$("#service_sma").append("<option value='A02010500'>생가</option>");
+					$("#service_sma").append("<option value='A02010600'>민속마을</option>");
+					$("#service_sma").append("<option value='A02010700'>유적지/사적지</option>");
+					$("#service_sma").append("<option value='A02010800'>사찰</option>");
+					$("#service_sma").append("<option value='A02010900'>종교성지</option>");
+					$("#service_sma").append("<option value='A02011000'>안보관광</option>");
+				}else if(value2 == "A02" && value3 == "A0202"){
+					$("#service_sma").append("<option value='A02020100'>유원지</option>");
+					$("#service_sma").append("<option value='A02020200'>관광단지</option>");
+					$("#service_sma").append("<option value='A02020300'>온천/욕장/스파</option>");
+					$("#service_sma").append("<option value='A02020400'>이색찜질방</option>");
+					$("#service_sma").append("<option value='A02020500'>헬스투어</option>");
+					$("#service_sma").append("<option value='A02020600'>테마공원</option>");
+					$("#service_sma").append("<option value='A02020700'>공원</option>");
+					$("#service_sma").append("<option value='A02020800'>유람선/잠수함관광</option>");					
+				}else if(value2 == "A02" && value3 == "A0203"){
+					$("#service_sma").append("<option value='A02030100'>농.산.어촌 체험</option>");
+					$("#service_sma").append("<option value='A02030200'>전통체험</option>");
+					$("#service_sma").append("<option value='A02030300'>산사체험</option>");
+					$("#service_sma").append("<option value='A02030400'>이색체험</option>");
+					$("#service_sma").append("<option value='A02030500'>관광농원</option>");
+					$("#service_sma").append("<option value='A02030600'>이색거리</option>");														
+				}else if(value2 == "A02" && value3 == "A0204"){
+					$("#service_sma").append("<option value='A02040100'>제철소</option>");
+					$("#service_sma").append("<option value='A02040200'>조선소</option>");
+					$("#service_sma").append("<option value='A02040300'>공단</option>");
+					$("#service_sma").append("<option value='A02040400'>발전소</option>");
+					$("#service_sma").append("<option value='A02040500'>광산</option>");
+					$("#service_sma").append("<option value='A02040600'>식음료</option>");
+					$("#service_sma").append("<option value='A02040700'>화학/금속</option>");
+					$("#service_sma").append("<option value='A02040800'>기타</option>");
+					$("#service_sma").append("<option value='A02040900'>전자/반도체</option>");
+					$("#service_sma").append("<option value='A02041000'>자동차</option>");
+				}else if(value2 == "A02" && value3 == "A0205"){
+					$("#service_sma").append("<option value='A02050100'>다리/대교</option>");
+					$("#service_sma").append("<option value='A02050200'>기념탑/기념비/전망대</option>");
+					$("#service_sma").append("<option value='A02050300'>분수</option>");
+					$("#service_sma").append("<option value='A02050400'>동상</option>");
+					$("#service_sma").append("<option value='A02050500'>터널</option>");
+					$("#service_sma").append("<option value='A02050600'>유명건물</option>");				
+				}else if(value2 == "A02" && value3 == "A0206"){
+					$("#service_sma").append("<option value='A02060100'>박물관</option>");
+					$("#service_sma").append("<option value='A02060200'>기념관</option>");
+					$("#service_sma").append("<option value='A02060300'>전시관</option>");
+					$("#service_sma").append("<option value='A02060400'>컨벤션센터</option>");
+					$("#service_sma").append("<option value='A02060500'>미술관/화랑</option>");
+					$("#service_sma").append("<option value='A02060600'>공연장</option>");
+					$("#service_sma").append("<option value='A02060700'>문화원</option>");
+					$("#service_sma").append("<option value='A02060800'>외국문화원</option>");
+					$("#service_sma").append("<option value='A02060900'>도서관</option>");
+					$("#service_sma").append("<option value='A02061000'>대형서점</option>");
+					$("#service_sma").append("<option value='A02061100'>문화전수시설</option>");
+					$("#service_sma").append("<option value='A02061200'>영화관</option>");
+					$("#service_sma").append("<option value='A02061300'>어학당</option>");
+					$("#service_sma").append("<option value='A02061400'>학교</option>");					
+				}else if(value2 == "A02" && value3 == "A0207"){
+					$("#service_sma").append("<option value='A02070100'>문화관광축제</option>");
+					$("#service_sma").append("<option value='A02070200'>일반축제</option>");
+				}else if(value2 == "A02" && value3 == "A0208"){
+					$("#service_sma").append("<option value='A02080100'>전통공연</option>");
+					$("#service_sma").append("<option value='A02080200'>연극</option>");
+					$("#service_sma").append("<option value='A02080300'>뮤지컬</option>");
+					$("#service_sma").append("<option value='A02080400'>오페라</option>");
+					$("#service_sma").append("<option value='A02080500'>전시회</option>");
+					$("#service_sma").append("<option value='A02080600'>박람회</option>");
+					$("#service_sma").append("<option value='A02080700'>컨벤션</option>");
+					$("#service_sma").append("<option value='A02080800'>무용</option>");
+					$("#service_sma").append("<option value='A02080900'>클래식음악회</option>");
+					$("#service_sma").append("<option value='A02081000'>대중콘서트</option>");
+					$("#service_sma").append("<option value='A02081100'>영화</option>");
+					$("#service_sma").append("<option value='A02081200'>스포츠경기</option>");
+					$("#service_sma").append("<option value='A02081300'>기타행사</option>");					
+				}
+			// 여행코스 
+				// 추천코스 
+				else if(value1 == "25" && value2 == "C01" 	&& value3 == "C0112"){
+					$("#service_sma").append("<option value='C01120001'>가족코스</option>");					
+				}else if(value1 == "25" && value2 == "C01" && value3 == "C0113"){
+					$("#service_sma").append("<option value='C01130001'>나홀로코스</option>");					
+				}else if(value1 == "25" && value2 == "C01" && value3 == "C0114"){
+					$("#service_sma").append("<option value='C01140001'>힐링코스</option>");					
+				}else if(value1 == "25" && value2 == "C01" && value3 == "C0115"){
+					$("#service_sma").append("<option value='C01150001'>도보코스</option>");					
+				}else if(value1 == "25" && value2 == "C01" && value3 == "C0116"){
+					$("#service_sma").append("<option value='C01160001'>캠핑코스</option>");					
+				}else if(value1 == "25" && value2 == "C01" && value3 == "C0117"){
+					$("#service_sma").append("<option value='C01170001'>맛코스</option>");					
+				}
+			// 레포츠 
+				// 레포츠
+				else if(value1 == "28" && value2 == "A03" && value3 == "A0301"){
+					$("#service_sma").append("<option value='A03010100'>육상레포츠</option>");
+					$("#service_sma").append("<option value='A03010200'>수상레포츠</option>");
+					$("#service_sma").append("<option value='A03010300'>항공레포츠</option>");
+				}else if(value1 == "28" && value2 == "A03" && value3 == "A0302"){
+					$("#service_sma").append("<option value='A03020100'>스포츠센터</option>");
+					$("#service_sma").append("<option value='A03020200'>수련시설</option>");
+					$("#service_sma").append("<option value='A03020300'>경기장</option>");
+					$("#service_sma").append("<option value='A03020400'>인라인(실내 인라인 포함)</option>");
+					$("#service_sma").append("<option value='A03020500'>자전거하이킹</option>");
+					$("#service_sma").append("<option value='A03020600'>카트</option>");
+					$("#service_sma").append("<option value='A03020700'>골프</option>");
+					$("#service_sma").append("<option value='A03020800'>경마</option>");
+					$("#service_sma").append("<option value='A03020900'>경륜</option>");
+					$("#service_sma").append("<option value='A03021000'>카지노</option>");
+					$("#service_sma").append("<option value='A03021100'>승마</option>");
+					$("#service_sma").append("<option value='A03021200'>스키/스노보드</option>");
+					$("#service_sma").append("<option value='A03021300'>스케이트</option>");
+					$("#service_sma").append("<option value='A03021400'>썰매장</option>");
+					$("#service_sma").append("<option value='A03021500'>수렵장</option>");
+					$("#service_sma").append("<option value='A03021600'>사격장</option>");
+					$("#service_sma").append("<option value='A03021700'>야영장,오토캠핑장</option>");
+					$("#service_sma").append("<option value='A03021800'>암벽등반</option>");
+					$("#service_sma").append("<option value='A03021900'>빙벽등반</option>");
+					$("#service_sma").append("<option value='A03022000'>서바이벌게임</option>");
+					$("#service_sma").append("<option value='A03022100'>ATV</option>");
+					$("#service_sma").append("<option value='A03022200'>MTB</option>");
+					$("#service_sma").append("<option value='A03022300'>오프로드</option>");
+					$("#service_sma").append("<option value='A03022400'>번지점프</option>");
+					$("#service_sma").append("<option value='A03022500'>자동차경주</option>");
+					$("#service_sma").append("<option value='A03022600'>스키(보드)렌탈샵</option>");
+					$("#service_sma").append("<option value='A03022700'>트래킹</option>");
+				}else if(value1 == "28" && value2 == "A03" && value3 == "A0303"){
+					$("#service_sma").append("<option value='A03030100'>윈드서핑/제트스키</option>");
+					$("#service_sma").append("<option value='A03030200'>카약/카누</option>");
+					$("#service_sma").append("<option value='A03030300'>요트</option>");
+					$("#service_sma").append("<option value='A03030400'>스노쿨링/스킨스쿠버다이빙</option>");
+					$("#service_sma").append("<option value='A03030500'>민물낚시</option>");
+					$("#service_sma").append("<option value='A03030600'>바다낚시</option>");
+					$("#service_sma").append("<option value='A03030700'>수영</option>");
+					$("#service_sma").append("<option value='A03030800'>래프팅</option>");
+				}else if(value1 == "28" && value2 == "A03" && value3 == "A0304"){
+					$("#service_sma").append("<option value='A03040100'>스카이다이빙</option>");
+					$("#service_sma").append("<option value='A03040200'>초경량비행</option>");
+					$("#service_sma").append("<option value='A03040300'>헹글라이딩/패러글라이딩</option>");
+					$("#service_sma").append("<option value='A03040400'>열기구</option>");					
+				}else if(value1 == "28" && value2 == "A03" && value3 == "A0305"){
+					$("#service_sma").append("<option value='A03050100'>복합 레포츠</option>");									
+				}
+			// 숙박
+				// 숙박
+				else if(value1 == "32" && value2 == "B02" && value3 == "B0201"){
+					$("#service_sma").append("<option value='B02010100'>관광호텔</option>");									
+					$("#service_sma").append("<option value='B02010200'>수상관광호텔</option>");
+					$("#service_sma").append("<option value='B02010300'>전통호텔</option>");
+					$("#service_sma").append("<option value='B02010400'>가족호텔</option>");
+					$("#service_sma").append("<option value='B02010500'>콘도미니엄</option>");
+					$("#service_sma").append("<option value='B02010600'>유스호스텔</option>");
+					$("#service_sma").append("<option value='B02010700'>펜션</option>");
+					$("#service_sma").append("<option value='B02010800'>여관</option>");
+					$("#service_sma").append("<option value='B02010900'>모텔</option>");
+					$("#service_sma").append("<option value='B02011000'>민박</option>");
+					$("#service_sma").append("<option value='B02011100'>게스트하우스</option>");
+					$("#service_sma").append("<option value='B02011200'>홈스테이</option>");
+					$("#service_sma").append("<option value='B02011300'>서비스드레지던스</option>");
+					$("#service_sma").append("<option value='B02011400'>의료관광호텔</option>");
+					$("#service_sma").append("<option value='B02011500'>소형호텔</option>");
+					$("#service_sma").append("<option value='B02011600'>한옥스테이</option>");
+					
+				}
+			// 쇼핑
+				// 쇼핑
+				else if(value1 == "38" && value2 == "A04" && value3 == "A0401"){
+					$("#service_sma").append("<option value='A04010100'>5일장</option>");									
+					$("#service_sma").append("<option value='A04010200'>상설시장</option>");
+					$("#service_sma").append("<option value='A04010300'>백화점</option>");
+					$("#service_sma").append("<option value='A04010400'>면세점</option>");
+					$("#service_sma").append("<option value='A04010500'>할인매장</option>");
+					$("#service_sma").append("<option value='A04010600'>전문상가</option>");
+					$("#service_sma").append("<option value='A04010700'>공예,공방</option>");
+					$("#service_sma").append("<option value='A04010800'>관광기념품점</option>");
+					$("#service_sma").append("<option value='A04010900'>특산물판매점</option>");					
+				}
+			// 음식점
+				// 음식
+				else if(value1 == "39" && value2 == "A05" && value3 == "A0502"){
+					$("#service_sma").append("<option value='A05020100'>한식</option>");									
+					$("#service_sma").append("<option value='A05020200'>서양식</option>");
+					$("#service_sma").append("<option value='A05020300'>일식</option>");
+					$("#service_sma").append("<option value='A05020400'>중식</option>");
+					$("#service_sma").append("<option value='A05020500'>아시아식</option>");
+					$("#service_sma").append("<option value='A05020600'>패밀리레스토랑</option>");
+					$("#service_sma").append("<option value='A05020700'>이색음식점</option>");
+					$("#service_sma").append("<option value='A05020800'>채식전문점</option>");
+					$("#service_sma").append("<option value='A05020900'>바/까페</option>");
+					$("#service_sma").append("<option value='A05021000'>클럽</option>");
+				}
+				deter3=1;
+				
+			}else{	
+				// id = select_type 기능을 제어 
+				$(document.getElementById('#select_mid').options).each(function(index, option) {
+				      if( option.value == title ) {
+				        option.hidden = true; // not fully compatible. option.style.display = 'none'; would be an alternative or $(option).hide();
+				      }
+				});	
+			}
+			
+		});
+		
+		// 소분류 추가 
+		$("#service_sma").change(function(){
+			
+			value4 = $("#service_sma option:selected").val();
+			total_info += value4 + "/";
+		});
+		
+		// 지역 할당 
+		$("#location").change(function(){
+			
+			if(deter4 == 0){
+				value5 = $("#location option:selected").val();
+				total_info += value5 + "/";
+				
+				if(value5 == "1"){														
+					$("#location_detail").append("<option value='1'>강남구</option>");
+					$("#location_detail").append("<option value='2'>강동구</option>");
+					$("#location_detail").append("<option value='3'>강부구</option>");
+					$("#location_detail").append("<option value='4'>강서구</option>");
+					$("#location_detail").append("<option value='5'>관악구</option>");
+					$("#location_detail").append("<option value='6'>광진구</option>");
+					$("#location_detail").append("<option value='7'>구로구</option>");
+					$("#location_detail").append("<option value='8'>금천구</option>");
+					$("#location_detail").append("<option value='9'>노원구</option>");
+					$("#location_detail").append("<option value='10'>도봉구</option>");
+					$("#location_detail").append("<option value='11'>동대문구</option>");
+					$("#location_detail").append("<option value='12'>동작구</option>");
+					$("#location_detail").append("<option value='13'>마포구</option>");
+					$("#location_detail").append("<option value='14'>서대문구</option>");
+					$("#location_detail").append("<option value='15'>서초구</option>");
+					$("#location_detail").append("<option value='16'>성동구</option>");
+					$("#location_detail").append("<option value='17'>성북구</option>");
+					$("#location_detail").append("<option value='18'>송파구</option>");
+					$("#location_detail").append("<option value='19'>양천구</option>");
+					$("#location_detail").append("<option value='20'>영등포구</option>");
+					$("#location_detail").append("<option value='21'>용산구</option>");
+					$("#location_detail").append("<option value='22'>은평구</option>");
+					$("#location_detail").append("<option value='23'>종로구</option>");
+					$("#location_detail").append("<option value='24'>중구</option>");
+					$("#location_detail").append("<option value='25'>중랑구</option>");
+					 
+				}else if(value5 == "2"){
+					$("#location_detail").append("<option value='1'>강화군</option>");
+					$("#location_detail").append("<option value='2'>계양구</option>");
+					$("#location_detail").append("<option value='3'>남구</option>");
+					$("#location_detail").append("<option value='4'>남동구</option>");
+					$("#location_detail").append("<option value='5'>동구</option>");
+					$("#location_detail").append("<option value='6'>부평구</option>");
+					$("#location_detail").append("<option value='7'>서구</option>");
+					$("#location_detail").append("<option value='8'>연수구</option>");
+					$("#location_detail").append("<option value='9'>옹진군</option>");
+					$("#location_detail").append("<option value='10'>중구</option>");
+					
+				}else if(value5 == "3"){
+					$("#location_detail").append("<option value='1'>대덕구</option>");
+					$("#location_detail").append("<option value='2'>동구</option>");
+					$("#location_detail").append("<option value='3'>서구</option>");
+					$("#location_detail").append("<option value='4'>유성구</option>");
+					$("#location_detail").append("<option value='5'>중구</option>");
+					
+				}else if(value5 == "4"){	
+					$("#location_detail").append("<option value='1'>남구</option>");
+					$("#location_detail").append("<option value='2'>달서구</option>");
+					$("#location_detail").append("<option value='3'>달성군</option>");
+					$("#location_detail").append("<option value='4'>동구</option>");
+					$("#location_detail").append("<option value='5'>북구</option>");
+					$("#location_detail").append("<option value='6'>서구</option>");
+					$("#location_detail").append("<option value='7'>수성구</option>");
+					$("#location_detail").append("<option value='8'>중구</option>");					
+					
+				}else if(value5 == "5"){
+					$("#location_detail").append("<option value='1'>광산구</option>");
+					$("#location_detail").append("<option value='2'>남구</option>");
+					$("#location_detail").append("<option value='3'>동구</option>");
+					$("#location_detail").append("<option value='4'>북구</option>");
+					$("#location_detail").append("<option value='5'>서구</option>");
+					
+				}else if(value5 == "6"){
+					$("#location_detail").append("<option value='1'>강서구</option>");
+					$("#location_detail").append("<option value='2'>금정구</option>");
+					$("#location_detail").append("<option value='3'>기장군</option>");
+					$("#location_detail").append("<option value='4'>남구</option>");
+					$("#location_detail").append("<option value='5'>동구</option>");
+					$("#location_detail").append("<option value='6'>동래구</option>");
+					$("#location_detail").append("<option value='7'>부산진구</option>");
+					$("#location_detail").append("<option value='8'>북구</option>");
+					$("#location_detail").append("<option value='9'>사상구</option>");
+					$("#location_detail").append("<option value='10'>사하구</option>");
+					$("#location_detail").append("<option value='11'>서구</option>");
+					$("#location_detail").append("<option value='12'>수영구</option>");
+					$("#location_detail").append("<option value='13'>연제구</option>");
+					$("#location_detail").append("<option value='14'>영도구</option>");
+					$("#location_detail").append("<option value='15'>중구</option>");
+					$("#location_detail").append("<option value='16'>해운대구</option>");					
+					
+				}else if(value5 == "7"){
+					$("#location_detail").append("<option value='1'>중구</option>");
+					$("#location_detail").append("<option value='2'>남구</option>");
+					$("#location_detail").append("<option value='3'>동구</option>");
+					$("#location_detail").append("<option value='4'>북구</option>");
+					$("#location_detail").append("<option value='5'>울주군</option>");
+					
+				}else if(value5 == "8"){
+					$("#location_detail").append("<option value='1'>세종특별자치시</option>");					
+					
+				}else if(value5 == "31"){
+					$("#location_detail").append("<option value='1'>가평군</option>");
+					$("#location_detail").append("<option value='2'>고양시</option>");
+					$("#location_detail").append("<option value='3'>과천시</option>");
+					$("#location_detail").append("<option value='4'>광명시</option>");
+					$("#location_detail").append("<option value='5'>광주시</option>");
+					$("#location_detail").append("<option value='6'>구리시</option>");
+					$("#location_detail").append("<option value='7'>군포시</option>");
+					$("#location_detail").append("<option value='8'>김포시</option>");
+					$("#location_detail").append("<option value='9'>남양주시</option>");
+					$("#location_detail").append("<option value='10'>동두천시</option>");
+					$("#location_detail").append("<option value='11'>부천시</option>");
+					$("#location_detail").append("<option value='12'>성남시</option>");
+					$("#location_detail").append("<option value='13'>수원시</option>");
+					$("#location_detail").append("<option value='14'>시흥시</option>");
+					$("#location_detail").append("<option value='15'>안산시</option>");
+					$("#location_detail").append("<option value='16'>안성시</option>");
+					$("#location_detail").append("<option value='17'>안양시</option>");
+					$("#location_detail").append("<option value='18'>양주시</option>");
+					$("#location_detail").append("<option value='19'>양평군</option>");
+					$("#location_detail").append("<option value='20'>여주시</option>");
+					$("#location_detail").append("<option value='21'>연천군</option>");
+					$("#location_detail").append("<option value='22'>오산시</option>");
+					$("#location_detail").append("<option value='23'>용인시</option>");
+					$("#location_detail").append("<option value='24'>의왕시</option>");
+					$("#location_detail").append("<option value='25'>의정부시</option>");
+					$("#location_detail").append("<option value='26'>이천시</option>");					
+					$("#location_detail").append("<option value='27'>파주시</option>");
+					$("#location_detail").append("<option value='28'>평택시</option>");
+					$("#location_detail").append("<option value='29'>포천시</option>");
+					$("#location_detail").append("<option value='30'>하남시</option>");
+					$("#location_detail").append("<option value='31'>화성시</option>");					
+					
+				}else if(value5 == "32"){
+					$("#location_detail").append("<option value='1'>강릉시</option>");
+					$("#location_detail").append("<option value='2'>고성군</option>");
+					$("#location_detail").append("<option value='3'>동해시</option>");
+					$("#location_detail").append("<option value='4'>삼척시</option>");
+					$("#location_detail").append("<option value='5'>속초시</option>");
+					$("#location_detail").append("<option value='6'>양구군</option>");
+					$("#location_detail").append("<option value='7'>양양군</option>");
+					$("#location_detail").append("<option value='8'>양월군</option>");
+					$("#location_detail").append("<option value='9'>원주시</option>");
+					$("#location_detail").append("<option value='10'>인제군</option>");
+					$("#location_detail").append("<option value='11'>정선군</option>");
+					$("#location_detail").append("<option value='12'>철원군</option>");
+					$("#location_detail").append("<option value='13'>춘천시</option>");
+					$("#location_detail").append("<option value='14'>태백시</option>");
+					$("#location_detail").append("<option value='15'>평창군</option>");
+					$("#location_detail").append("<option value='16'>홍천군</option>");
+					$("#location_detail").append("<option value='17'>화천군</option>");
+					$("#location_detail").append("<option value='18'>횡성군</option>");					
+					
+				}else if(value5 == "33"){
+					$("#location_detail").append("<option value='1'>괴산군</option>");
+					$("#location_detail").append("<option value='2'>단양군</option>");
+					$("#location_detail").append("<option value='3'>보은군</option>");
+					$("#location_detail").append("<option value='4'>영동군</option>");
+					$("#location_detail").append("<option value='5'>옥천군</option>");
+					$("#location_detail").append("<option value='6'>음성군</option>");
+					$("#location_detail").append("<option value='7'>제천시</option>");
+					$("#location_detail").append("<option value='8'>진천군</option>");
+					$("#location_detail").append("<option value='9'>청원군</option>");
+					$("#location_detail").append("<option value='10'>청주시</option>");
+					$("#location_detail").append("<option value='11'>충주시</option>");
+					$("#location_detail").append("<option value='12'>증평군</option>");									
+					
+				}else if(value5 == "34"){
+					$("#location_detail").append("<option value='1'>공주시</option>");
+					$("#location_detail").append("<option value='2'>금산군</option>");
+					$("#location_detail").append("<option value='3'>논산시</option>");
+					$("#location_detail").append("<option value='4'>당진시</option>");
+					$("#location_detail").append("<option value='5'>보령시</option>");
+					$("#location_detail").append("<option value='6'>부여군</option>");
+					$("#location_detail").append("<option value='7'>서산시</option>");
+					$("#location_detail").append("<option value='8'>서천군</option>");
+					$("#location_detail").append("<option value='9'>아산시</option>");
+					$("#location_detail").append("<option value='11'>예산군</option>");
+					$("#location_detail").append("<option value='12'>천안시</option>");
+					$("#location_detail").append("<option value='13'>청양군</option>");
+					$("#location_detail").append("<option value='14'>태안군</option>");
+					$("#location_detail").append("<option value='15'>홍성군</option>");
+					$("#location_detail").append("<option value='16'>계룡시</option>");
+					
+				}else if(value5 == "35"){
+					$("#location_detail").append("<option value='1'>경산시</option>");
+					$("#location_detail").append("<option value='2'>경주시</option>");
+					$("#location_detail").append("<option value='3'>고령군</option>");
+					$("#location_detail").append("<option value='4'>구미시</option>");
+					$("#location_detail").append("<option value='5'>군위군</option>");
+					$("#location_detail").append("<option value='6'>김천시</option>");
+					$("#location_detail").append("<option value='7'>문경시</option>");
+					$("#location_detail").append("<option value='8'>봉화군</option>");
+					$("#location_detail").append("<option value='9'>상주시</option>");
+					$("#location_detail").append("<option value='10'>성주군</option>");
+					$("#location_detail").append("<option value='11'>안동시</option>");
+					$("#location_detail").append("<option value='12'>영덕군</option>");
+					$("#location_detail").append("<option value='13'>영양군</option>");
+					$("#location_detail").append("<option value='14'>영주시</option>");
+					$("#location_detail").append("<option value='15'>영천시</option>");
+					$("#location_detail").append("<option value='16'>예천군</option>");
+					$("#location_detail").append("<option value='17'>울릉군</option>");
+					$("#location_detail").append("<option value='18'>울진군</option>");
+					$("#location_detail").append("<option value='19'>의성군</option>");
+					$("#location_detail").append("<option value='20'>청도군</option>");
+					$("#location_detail").append("<option value='21'>청송군</option>");
+					$("#location_detail").append("<option value='22'>칠곡군</option>");
+					$("#location_detail").append("<option value='23'>포항시</option>");					
+					
+				}else if(value5 == "36"){
+					$("#location_detail").append("<option value='1'>거제시</option>");
+					$("#location_detail").append("<option value='2'>거창군</option>");
+					$("#location_detail").append("<option value='3'>고성군</option>");
+					$("#location_detail").append("<option value='4'>김해시</option>");
+					$("#location_detail").append("<option value='5'>남해군</option>");
+					$("#location_detail").append("<option value='6'>마산시</option>");
+					$("#location_detail").append("<option value='7'>밀양시</option>");
+					$("#location_detail").append("<option value='8'>사천시</option>");
+					$("#location_detail").append("<option value='9'>산청군</option>");
+					$("#location_detail").append("<option value='10'>양산시</option>");
+					$("#location_detail").append("<option value='12'>의령군</option>");
+					$("#location_detail").append("<option value='13'>진주시</option>");
+					$("#location_detail").append("<option value='14'>진해시</option>");
+					$("#location_detail").append("<option value='15'>창녕군</option>");
+					$("#location_detail").append("<option value='16'>창원시</option>");
+					$("#location_detail").append("<option value='17'>통영시</option>");
+					$("#location_detail").append("<option value='18'>하동군</option>");
+					$("#location_detail").append("<option value='19'>함안군</option>");
+					$("#location_detail").append("<option value='20'>함양군</option>");
+					$("#location_detail").append("<option value='21'>합천군</option>");									
+					
+				}else if(value5 == "37"){
+					$("#location_detail").append("<option value='1'>고창군</option>");
+					$("#location_detail").append("<option value='2'>군산시</option>");
+					$("#location_detail").append("<option value='3'>김제시</option>");
+					$("#location_detail").append("<option value='4'>남원시</option>");
+					$("#location_detail").append("<option value='5'>무주군</option>");
+					$("#location_detail").append("<option value='6'>부안군</option>");
+					$("#location_detail").append("<option value='7'>순창군</option>");
+					$("#location_detail").append("<option value='8'>완주군</option>");
+					$("#location_detail").append("<option value='9'>익산시</option>");
+					$("#location_detail").append("<option value='10'>임실군</option>");
+					$("#location_detail").append("<option value='11'>장수군</option>");
+					$("#location_detail").append("<option value='12'>전주시</option>");
+					$("#location_detail").append("<option value='13'>정읍시</option>");
+					$("#location_detail").append("<option value='14'>진안군</option>");													
+					
+				}else if(value5 == "38"){
+					$("#location_detail").append("<option value='1'>강진군</option>");
+					$("#location_detail").append("<option value='2'>고흥군</option>");
+					$("#location_detail").append("<option value='3'>곡성군</option>");
+					$("#location_detail").append("<option value='4'>광양시</option>");
+					$("#location_detail").append("<option value='5'>구례군</option>");
+					$("#location_detail").append("<option value='6'>나주시</option>");
+					$("#location_detail").append("<option value='7'>담양군</option>");
+					$("#location_detail").append("<option value='8'>목포시</option>");
+					$("#location_detail").append("<option value='9'>무안군</option>");
+					$("#location_detail").append("<option value='10'>보성군</option>");
+					$("#location_detail").append("<option value='11'>순천시</option>");
+					$("#location_detail").append("<option value='12'>신안군</option>");
+					$("#location_detail").append("<option value='13'>여수시</option>");
+					$("#location_detail").append("<option value='16'>영광군</option>");
+					$("#location_detail").append("<option value='17'>영암군</option>");
+					$("#location_detail").append("<option value='18'>완도군</option>");
+					$("#location_detail").append("<option value='19'>장성군</option>");
+					$("#location_detail").append("<option value='20'>장흥군</option>");
+					$("#location_detail").append("<option value='21'>진도군</option>");
+					$("#location_detail").append("<option value='22'>함평군</option>");
+					$("#location_detail").append("<option value='23'>해남군</option>");
+					$("#location_detail").append("<option value='24'>화순군</option>");					
+					
+				}else if(value5 == "39"){
+					$("#location_detail").append("<option value='1'>남제주군</option>");
+					$("#location_detail").append("<option value='2'>북제주군</option>");
+					$("#location_detail").append("<option value='3'>서귀포시</option>");
+					$("#location_detail").append("<option value='4'>제주시</option>");								
+					
+				}
+				deter4=1;
+				
+				value6 = $("#location_detail option:selected").val();
+				total_value += value6;
+			}else{
+				// id = select_type 기능을 제어 
+				$(document.getElementById('#location').options).each(function(index, option) {
+				      if( option.value == title ) {
+				        option.hidden = true; // not fully compatible. option.style.display = 'none'; would be an alternative or $(option).hide();
+				      }
+				});	
+			}
+			
+		});
+		
+		// 시군구 추가 
+		$("#location_detail").change(function(){
+			
+			value6 = $("#location_detail option:selected").val();
+			total_info += value6 + "/";
+		});
+	});
+	</script>
+</head>
+<body>
+
+	<div class="container-fluid" class="col-md-6 col-md-offset-3">  
+	
+	<br/><h1> 지역별 관광정보</h1><br/>      
+	    <table class="table table-bordered table-condensed">
+	         <tr>
+	            <td width="15%">관광타입</td>
+	            <td width="85%">
+	                <div>                             		                  
+	                  	 <select name="select_type" id="select_type">												
+							<option value="">타입선택</option>
+							<option value="12">관광지</option>
+							<option value="14">문화시설</option>
+							<option value="15">축제공연행사</option>
+							<option value="25">여행코스</option>
+							<option value="28">레포츠</option>
+							<option value="32">숙박</option>
+							<option value="38">쇼핑</option>
+							<option value="39">음식점</option>
+						</select>                         
+	                </div>    
+	            </td>
+	         </tr>
+	         <tr>
+	            <td width="15%">서비스분류</td>
+	            <td width="85%">
+	          		<div>
+	          			<select name="service_lar" id="service_lar" style="width:150px;">												
+							<option value="">대분류</option>							 						
+						</select>
+						<select name="service_mid" id="service_mid" style="width:150px;">												
+							<option value="">중분류</option>						
+						</select>
+						<select name="service_sma" id="service_sma" style="width:220px;">												
+							<option value="">소분류</option>						
+						</select>
+	          		</div>           		                
+	            </td>
+	         </tr>
+	         <tr>
+	            <td width="15%">지역</td>            	
+	            <td width="85%">
+	               <div>
+		            	<select name="location" id="location" style="width:150px;" >												
+								<option value="">지역선택</option>
+								<option value="1">서울</option>
+								<option value="2">인천</option>
+								<option value="3">대전</option>
+								<option value="4">대구</option>
+								<option value="5">광주</option>
+								<option value="6">부산</option>
+								<option value="7">울산</option>
+								<option value="8">세종특별자치시</option>
+								<option value="31">경기도</option>
+								<option value="32">강원도</option>
+								<option value="33">충청북도</option>
+								<option value="34">충청남도</option>
+								<option value="35">경상북도</option>
+								<option value="36">경상남도</option>
+								<option value="37">전라북도</option>
+								<option value="38">전라남도</option>
+								<option value="39">제주도</option>											
+						</select>
+						<select name="location_detail" id="location_detail" style="width:150px;" >												
+							<option value="">시군구 선택</option>						
+						</select>
+					</div>	
+	            </td>
+	         </tr>
+	         <tr>
+	            <td width="15%">검색</td>
+	            <td width="85%">
+		            <form th:action="@{/tourism/access}" th:object="${tourForm}"
+		            	class="form-horizontal" method="post">			            			            
+		            		<div class="form-group" th:classappend=
+		            				"${#fields.hasErrors('request')} ? 'has-error has-feedback'">		            					            			
+		            			<div class="col-sm-10">
+		            				<input type="hidden" id="request" name="request" 
+		            						th:field="*{request}"
+		            						class="form-control" value="tem"/>
+		            				<span th:if="${#fields.hasErrors('request')}"
+		            				th:errors="*{request}"
+		            					class="help-block">error!</span>
+		            			</div>
+		            		</div>
+		            		<div class="form-group">
+		            			<div class="col-sm-offset-2 col-sm-10">
+		            				<button type="submit" class="btn btn-primary" id="search"
+		            					name="search">검 색</button>
+		            					<!-- 재검색 기능 : 새로고침 -->			            
+		        					<button class="btn btn-default" onClick="window.location.reload()"
+		        						style="margin-left: 5px">재선택</button>		            				
+		            			</div>
+		            		</div>		            	          			           			       	                		                	             
+		            </form>
+		                		            
+	            </td>	            
+	         </tr>	         
+	      </table> 	      
+	</div>    	   
+	<div class="col-md-12 well">
+		<h3>Information</h3>
+		<ul>
+			<li th:text="${name}">name</li>
+			<li><img th:src="${imageUrl}"></img></li>
+		</ul>
+	</div>   
+</body>
+</html>

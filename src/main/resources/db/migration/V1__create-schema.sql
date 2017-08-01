@@ -1,0 +1,25 @@
+create table IF NOT EXISTS User (
+	ID INT AUTO_INCREMENT primary key,
+	writer VARCHAR(30) not null, 
+	PASSWORD VARCHAR(30) not null,
+	NICK_NAME VARCHAR(30) not null	
+);
+
+CREATE TABLE IF NOT EXISTS tweetdata (
+	ID INT PRIMARY KEY AUTO_INCREMENT, 
+	writer VARCHAR(30),
+	tweet_Data VARCHAR(2000)
+);
+
+
+CREATE TABLE IF NOT EXISTS friend (
+	ID INT PRIMARY KEY AUTO_INCREMENT, 
+	writer VARCHAR(30),
+	friend VARCHAR(30)
+);
+
+CREATE TABLE IF NOT EXISTS Json_Type (
+	ID INT PRIMARY KEY AUTO_INCREMENT, 
+	writer VARCHAR(30),
+	interest VARCHAR(400)
+);
