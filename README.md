@@ -19,6 +19,4 @@ Things you may want to cover:
 
 * Deployment instructions
 
-…
-
-Please feel free to use a different markup language if you do not plan to run rake doc:app
+We developed the server and client parts using different frameworks. Social-Scheduler is a server and Social-Sheduler-Client is a client. The part I developed is the server part.
