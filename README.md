@@ -3,13 +3,13 @@ This README would normally document whatever steps are necessary to get the appl
 
 Things you may want to cover:
 
-* Ruby version
+* Spring Boot
+
+* Ruby on Rails
 
 * System dependencies
 
 * Configuration
-
-* Database creation
 
 * Database initialization
 
